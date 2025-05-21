@@ -1,0 +1,64 @@
+<Window x:Class="DesktopMirror.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Desktop Mirror" Height="450" Width="800"
+        WindowStyle="None" 
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        Loaded="Window_Loaded">
+    <Border Background="#CC000000" CornerRadius="10" Margin="10" BorderBrush="#FFAAAAAA" BorderThickness="2">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="15" ShadowDepth="0" Color="Black" Opacity="0.5"/>
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- Title bar with close button -->
+            <DockPanel Grid.Row="0" LastChildFill="True" Height="32" Background="#22000000" Margin="0,0,0,5">
+                <Button x:Name="CloseButton" Content="✕" Width="28" Height="28" Margin="0,2,2,2" DockPanel.Dock="Right"
+                        Background="#FFE81123" Foreground="White" BorderBrush="#FFE81123" BorderThickness="1"
+                        FontWeight="Bold" FontSize="16" Cursor="Hand" Click="CloseButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FFFF0000"/>
+                                    <Setter Property="BorderBrush" Value="#FFFF0000"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </DockPanel>
+            <ListView x:Name="DesktopItemsListView" 
+                      Grid.Row="1"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      Margin="10"
+                      MouseDoubleClick="DesktopItemsListView_MouseDoubleClick"
+                      KeyDown="DesktopItemsListView_KeyDown">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Image Source="{Binding Icon}" Width="32" Height="32" Margin="0,0,10,0"/>
+                            <TextBlock Text="{Binding Name}" Foreground="White" VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsFolder}" Value="True">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Border>
+</Window> 

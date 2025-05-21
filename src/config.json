@@ -1,0 +1,11 @@
+{
+  "CloseOnEscape": true,
+  "TargetMonitor": null,
+  "HideRegex": "^\\.|^desktop\\.ps1$|.*\\.ps1$",
+  "HideExtensions": "Always",
+  "HideExtensionsList": "url",
+  "UseCtrl": true,
+  "UseAlt": true,
+  "UseShift": false,
+  "Hotkey": "D"
+} 
