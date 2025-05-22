@@ -1,6 +1,8 @@
 # Introduction
 
-DesktopMirror is a WPF app to show the content of your desktop in a semi-transparent folder when a use-defined hotkey is pressed (defaults to Ctrl+Alt+D).
+DesktopMirror is a WPF app to show the content of your desktop in a semi-transparent folder when a user-defined hotkey is pressed (defaults to Ctrl+Alt+D).
+
+![screenshot showing output](resources/screenshot.png)
 
 # Download
 
