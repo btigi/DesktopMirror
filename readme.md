@@ -25,7 +25,7 @@ $ dotnet build
 
 # Usage
 
-A configuration file named config.json is automatically created in %HOMEDRIVE%%HOMEPATH%\AppData\Roaming\DesktopMirror is one does not exist. The configuration options are:
+A configuration file named config.json is automatically created in %HOMEDRIVE%%HOMEPATH%\AppData\Roaming\DesktopMirror if one does not exist. The configuration options are:
 
 - `CloseOnEscape`: close the window if the ESC key is pressed
 - `TargetMonitor`: the monitor id the window should be displayed on, an integer value or `null` for the current monitor
