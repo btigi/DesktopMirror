@@ -23,6 +23,26 @@ namespace DesktopMirror
         private DateTime lastKeyPress = DateTime.MinValue;
         private const int SEARCH_TIMEOUT_MS = 1000; // Reset search after 1 second of no typing
 
+        public bool ShowPasteArea
+        {
+            get => config.ShowPasteArea;
+            set
+            {
+                if (config.ShowPasteArea != value)
+                {
+                    config.ShowPasteArea = value;
+                    ConfigManager.SaveConfig(config);
+                    OnPropertyChanged(nameof(ShowPasteArea));
+                }
+            }
+        }
+
+        public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+
         [DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
 
@@ -44,6 +64,7 @@ namespace DesktopMirror
         {
             InitializeComponent();
             config = ConfigManager.LoadConfig();
+            DataContext = this;
             System.Diagnostics.Debug.WriteLine($"Loaded config - HideRegex: {config.HideRegex}");
             if (!string.IsNullOrEmpty(config.HideRegex))
             {
@@ -462,6 +483,71 @@ namespace DesktopMirror
         {
             // Re-register hotkey when config changes
             RegisterHotkey();
+        }
+
+        private void PasteArea_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var contextMenu = new System.Windows.Controls.ContextMenu();
+            var pasteMenuItem = new System.Windows.Controls.MenuItem { Header = "Paste" };
+            
+            pasteMenuItem.Click += (s, args) =>
+            {
+                try
+                {
+                    if (System.Windows.Clipboard.ContainsFileDropList())
+                    {
+                        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                        var files = System.Windows.Clipboard.GetFileDropList();
+                        
+                        foreach (string file in files)
+                        {
+                            string fileName = Path.GetFileName(file);
+                            string destinationPath = Path.Combine(desktopPath, fileName);
+                            
+                            if (File.Exists(file))
+                            {
+                                File.Copy(file, destinationPath, true);
+                            }
+                            else if (Directory.Exists(file))
+                            {
+                                CopyDirectory(file, destinationPath);
+                            }
+                        }
+                        
+                        RefreshDesktopItems();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show($"Error pasting files: {ex.Message}", "Error", 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            };
+            
+            contextMenu.Items.Add(pasteMenuItem);
+            contextMenu.IsOpen = true;
+        }
+
+        private void CopyDirectory(string sourceDir, string destDir)
+        {
+            if (!Directory.Exists(destDir))
+            {
+                Directory.CreateDirectory(destDir);
+            }
+
+            foreach (string file in Directory.GetFiles(sourceDir))
+            {
+                string fileName = Path.GetFileName(file);
+                string destFile = Path.Combine(destDir, fileName);
+                File.Copy(file, destFile, true);
+            }
+
+            foreach (string dir in Directory.GetDirectories(sourceDir))
+            {
+                string dirName = Path.GetFileName(dir);
+                string destSubDir = Path.Combine(destDir, dirName);
+                CopyDirectory(dir, destSubDir);
+            }
         }
     }
 

@@ -35,7 +35,8 @@ A configuration file named config.json is automatically created in %HOMEDRIVE%%H
 - `UseCtrl`: if the Ctrl key is used in the shortcut definition
 - `UseAlt`: if the Alt key is used in the shortcut definition
 - `UseShift`: if the Shift key is used in the shortcut definition
-- `Hotkey`: the shortcut key, e.g. "D"
+- `Hotkey`: the shortcut key, e.g. "D",
+- `ShowPasteArea` - if the paste area should be displayed
 
 
 # Licencing

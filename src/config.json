@@ -7,5 +7,6 @@
   "UseCtrl": true,
   "UseAlt": true,
   "UseShift": false,
-  "Hotkey": "D"
+  "Hotkey": "D",
+  "ShowPasteArea": true
 } 

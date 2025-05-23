@@ -15,6 +15,7 @@ namespace DesktopMirror
         public bool UseAlt { get; set; } = true;
         public bool UseShift { get; set; } = false;
         public string Hotkey { get; set; } = "D";
+        public bool ShowPasteArea { get; set; } = true;
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
