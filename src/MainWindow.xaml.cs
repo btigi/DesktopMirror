@@ -153,10 +153,14 @@ namespace DesktopMirror
                 else
                 {
                     CenterOnCursorScreen();
+                    RefreshDesktopItems();
+                    if (DesktopItemsListView.Items.Count > 0)
+                    {
+                        DesktopItemsListView.ScrollIntoView(DesktopItemsListView.Items[0]);
+                    }
                     Show();
                     Activate();
                     isVisible = true;
-                    RefreshDesktopItems();
                 }
             });
         }
